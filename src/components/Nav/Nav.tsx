@@ -1,13 +1,19 @@
+'use client'
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import CreateTaskForm from "../forms/createTask";
+import { useState } from "react";
 
 export default function Nav() {
+    const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
 
     return (
         <div className="w-full flex flex-row justify-between p-[2rem]">
             <h1 className="font-bold text-2xl">Task Manager</h1>
-            <Dialog>
+            <Dialog
+            open={isOpenForm}
+            onOpenChange={(e)=>{setIsOpenForm(e)}}
+            >
                 <DialogTrigger asChild>
                     <Button variant="outline">New Task</Button>
                 </DialogTrigger>
@@ -18,7 +24,9 @@ export default function Nav() {
                             Create your New Task
                         </DialogDescription>
                     </DialogHeader>
-                    <CreateTaskForm/>
+                    <CreateTaskForm
+                        onSubmit={()=>{setIsOpenForm(false)}}
+                    />
                 </DialogContent>
             </Dialog>
         </div>

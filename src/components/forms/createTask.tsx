@@ -12,7 +12,11 @@ import { ToastAction } from "../ui/toast";
 import { AxiosNode } from '../../service/axios';
 import { Task } from "@/dto/task/task";
 
-export default function CreateTaskForm() {
+interface Props{
+    onSubmit:()=>void;
+}
+
+export default function CreateTaskForm({onSubmit}:Props) {
 
     const toast = useToast()
 
@@ -27,8 +31,10 @@ export default function CreateTaskForm() {
 
     async function createTask(data: taskCreate) {
         try {
-            const task = await AxiosNode.post<Task>('/task', data)
-            console.log(task.data)
+            await AxiosNode.post<Task>('/task', data).then((response)=>{
+                console.log(response.data);
+                onSubmit();
+            })
         } catch (error: any) {
             console.log('deu ruim', error.message)
         }
