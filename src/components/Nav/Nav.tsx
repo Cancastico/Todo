@@ -2,11 +2,19 @@
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import CreateTaskForm from "../forms/createTask";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function Nav() {
-    const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
+interface Props{
+  onClose:()=>void;
+}
+export default function Nav({onClose}:Props) {
+    const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
 
+    useEffect(()=>{
+      if(isOpenForm === false){
+        onClose()
+      }
+    },[isOpenForm])
     return (
         <div className="w-full flex flex-row justify-between p-[2rem]">
             <h1 className="font-bold text-2xl">Task Manager</h1>
