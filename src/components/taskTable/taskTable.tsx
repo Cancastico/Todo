@@ -2,7 +2,6 @@
 import { Task } from "@/dto/task/task";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Trash2 } from 'lucide-react';
@@ -23,20 +22,19 @@ export default function TaskTable({ tasks, complete, exclude }: Props) {
     <main className="w-full flex-wrap flex flex-row justify-center lg:justify-normal ">
       {tasks.map((task, index) => {
         return (
-          <Card key={index} className="relative w-[80%] lg:ml-[4%] my-[2%] lg:w-[20%] ">
+          <Card key={index} className="relative w-[80%] h-[18rem] flex flex-col justify-between shadow-zinc-800 shadow-2xl  lg:ml-[4%] my-[2%] lg:w-[20%] ">
             {!task.completed &&
-              <Trash2 onClick={() => { exclude(task.id) }} className="absolute left-[90%] top-[5%] hover:text-red-500 transition-transform"/>
+              <Trash2 onClick={() => { exclude(task.id) }} className="absolute right-[1.6rem] top-[1.4rem] hover:text-red-500 transition-transform"/>
             }
 
-            <CardHeader>
-              <CardTitle>{task.title}</CardTitle>
-              <CardDescription className="w-[90%]">{task.description}</CardDescription>
+            <CardHeader className="flex flex-col gap-2">
+              <CardTitle className="w-[90%] truncate" >{task.title}</CardTitle>
+              <CardDescription className="w-[90%] h-[7rem] lg:h-[6rem] truncate text-wrap">{task.description}</CardDescription>
             </CardHeader>
 
             <CardContent>
-              <p>Created At : {formatDate(task.created_at)}</p>
-              {task.completed && <p>Completed At : {formatDate(task.completed_at)}</p>}
-              <p>Status : {task.completed ? 'Complete' : 'Pending'}</p>
+              <p className="text-sm">Created At : {formatDate(task.created_at)}</p>
+              {task.completed && <p className="text-sm" >Completed At : {formatDate(task.completed_at)}</p>}
             </CardContent>
 
             <CardFooter>
@@ -56,10 +54,6 @@ export default function TaskTable({ tasks, complete, exclude }: Props) {
                   </Popover>
                 )
               }
-
-
-
-
 
             </CardFooter>
 
