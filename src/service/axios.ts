@@ -1,9 +1,7 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8000"; // AVELINO
-
 export const AxiosNode = axios.create({
-  baseURL: baseURL,
+  baseURL: process.env.NODE_ENV,
   headers: {
     "Content-Type": "application/json",
   },
