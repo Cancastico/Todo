@@ -16,7 +16,7 @@ interface Props {
 }
 //Zod Form
 const taskSchema = z.object({
-  title: z.string().min(3, 'Title is required'),
+  title: z.string().min(3, 'Title is required').max(36,'Tamanhoa Maximo do Titulo é 36 caracteres'),
   description: z.string().min(3, 'Description is required'),
 })
 

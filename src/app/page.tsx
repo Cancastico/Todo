@@ -6,6 +6,10 @@ import { AxiosNode } from "@/service/axios";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import CreateTaskForm, { taskCreate } from "@/components/forms/createTask";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([])
@@ -72,12 +76,28 @@ export default function Home() {
           </DialogContent>
         </Dialog>
       </div>
+      <Tabs defaultValue="Pending" className="w-full flex flex-col justify-center items-center">
+        <TabsList className="grid grid-cols-2 w-[80%] lg:max-w-[350px]">
+          <TabsTrigger value="Pending">Pending</TabsTrigger>
+          <TabsTrigger value="Completed">Completed</TabsTrigger>
+        </TabsList>
+        <TabsContent className="w-full" value="Pending">
+          <TaskTable
+            complete={completeTask}
+            exclude={DeleteTask}
+            tasks={tasks.filter((task)=>{return task.completed === false})}
+          />
+        </TabsContent>
+        <TabsContent className="w-full" value="Completed">
+          <TaskTable
+            complete={completeTask}
+            exclude={DeleteTask}
+            tasks={tasks.filter((task)=>{return task.completed === true})}
+          />
+        </TabsContent>
+      </Tabs>
 
-      <TaskTable
-        complete={completeTask}
-        exclude={DeleteTask}
-        tasks={tasks}
-      />
+
     </main>
   );
 }

@@ -1,10 +1,18 @@
 export function formatDate(date: Date) {
   try {
-    const data = new Date(date);
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
-    const ano = data.getFullYear();
-    return `${dia}/${mes}/${ano}`;
+    const dataObj = new Date(date);
+
+    // Formatando para o padrão brasileiro de data e hora
+    const dataNormal = dataObj.toLocaleString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  
+    return dataNormal;
   } catch (error: any) {
     return ''
   }

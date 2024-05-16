@@ -30,11 +30,12 @@ export default function TaskTable({ tasks, complete, exclude }: Props) {
 
             <CardHeader>
               <CardTitle>{task.title}</CardTitle>
-              <CardDescription>{task.description}</CardDescription>
+              <CardDescription className="w-[90%]">{task.description}</CardDescription>
             </CardHeader>
 
             <CardContent>
               <p>Created At : {formatDate(task.created_at)}</p>
+              {task.completed && <p>Completed At : {formatDate(task.completed_at)}</p>}
               <p>Status : {task.completed ? 'Complete' : 'Pending'}</p>
             </CardContent>
 

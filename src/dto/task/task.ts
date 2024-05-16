@@ -4,4 +4,5 @@ export interface Task{
     title: string,
     description: string,
     completed: boolean,
+    completed_at: Date,
 }
