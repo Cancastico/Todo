@@ -7,9 +7,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import CreateTaskForm, { taskCreate } from "@/components/forms/createTask";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { List } from "lucide-react";
 
 export default function Home() {
@@ -55,8 +52,10 @@ export default function Home() {
   }, [isOpenForm])
 
 
+
+
   return (
-    <main>
+    <main >
       <div className="w-full flex flex-row justify-between px-[2rem] py-[2rem]">
         <div className="flex items-center justify-between px-0">
           <List />

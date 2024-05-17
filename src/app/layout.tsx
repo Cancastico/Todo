@@ -23,8 +23,11 @@ export default function RootLayout({
         enableSystem
         disableTransitionOnChange
       >
-
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <div className="scrollbar scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-primary scrollbar-track-background h-screen overflow-auto">
+            {children}
+          </div>
+        </body>
       </ThemeProvider>
     </html>
   );
