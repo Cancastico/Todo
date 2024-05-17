@@ -27,7 +27,7 @@ export default function CreateTaskForm({ onSubmit }: Props) {
   const { register, handleSubmit, formState: { errors } } = useForm<taskCreate>({ resolver: zodResolver(taskSchema) });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 w-[95%]">
       <div className="flex flex-col gap-1">
         <Label>Title</Label>
         <Input
