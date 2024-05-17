@@ -22,7 +22,7 @@ export default function TaskTable({ tasks, complete, exclude }: Props) {
     <main className="w-full flex-wrap flex flex-row justify-center lg:justify-normal ">
       {tasks.map((task, index) => {
         return (
-          <Card key={index} className="relative w-[80%] h-[18rem] flex flex-col justify-between shadow-zinc-800 shadow-2xl  lg:ml-[4%] my-[2%] lg:w-[20%] ">
+          <Card key={index} className="relative w-[80%] h-[18rem] flex flex-col justify-between shadow-primary-foreground shadow-2xl  lg:ml-[4%] my-[2%] lg:w-[20%] ">
             {!task.completed &&
               <Trash2 onClick={() => { exclude(task.id) }} className="absolute right-[1.6rem] top-[1.4rem] hover:text-red-500 transition-transform"/>
             }
@@ -42,7 +42,7 @@ export default function TaskTable({ tasks, complete, exclude }: Props) {
                 (
                   <Popover>
                     <PopoverTrigger className="w-full" asChild>
-                      <Button variant="outline">Concluir</Button>
+                      <Button >Concluir</Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[100%]">
                       <h1>Concluir essa tarefa?</h1>

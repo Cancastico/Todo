@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { List } from "lucide-react";
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([])
@@ -56,12 +57,15 @@ export default function Home() {
   return (
     <main>
       <div className="w-full flex flex-row justify-between px-[4rem] py-[2rem]">
-        <h1 className="font-bold text-2xl">Task Manager</h1>
+        <div className="flex items-center">
+          <List />
+          <h1 className="font-bold text-2xl ml-1">Task <span className="text-primary">Manager</span></h1>
+        </div>
 
         {/* CreateTask Button */}
         <Dialog open={isOpenForm} onOpenChange={(e) => { setIsOpenForm(e) }}>
           <DialogTrigger asChild>
-            <Button variant="outline">New Task</Button>
+            <Button>New Task</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
@@ -85,14 +89,14 @@ export default function Home() {
           <TaskTable
             complete={completeTask}
             exclude={DeleteTask}
-            tasks={tasks.filter((task)=>{return task.completed === false})}
+            tasks={tasks.filter((task) => { return task.completed === false })}
           />
         </TabsContent>
         <TabsContent className="w-full" value="Completed">
           <TaskTable
             complete={completeTask}
             exclude={DeleteTask}
-            tasks={tasks.filter((task)=>{return task.completed === true})}
+            tasks={tasks.filter((task) => { return task.completed === true })}
           />
         </TabsContent>
       </Tabs>
