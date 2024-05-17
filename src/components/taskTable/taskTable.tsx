@@ -42,13 +42,13 @@ export default function TaskTable({ tasks, complete, exclude }: Props) {
                 (
                   <Popover>
                     <PopoverTrigger className="w-full" asChild>
-                      <Button >Concluir</Button>
+                      <Button >Conclude</Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[100%]">
-                      <h1>Concluir essa tarefa?</h1>
+                      <h1>Complete this Task?</h1>
                       <div className="w-full flex flex-row justify-evenly items-center">
-                        <Button className="w-[45%]" onClick={() => { complete(task.id) }}>Sim</Button>
-                        <Button className="w-[45%]">Não</Button>
+                        <Button className="w-[45%]" onClick={() => { complete(task.id) }}>Yes</Button>
+                        <Button className="w-[45%]">No</Button>
                       </div>
                     </PopoverContent>
                   </Popover>
