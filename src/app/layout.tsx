@@ -24,7 +24,7 @@ export default function RootLayout({
         disableTransitionOnChange
       >
         <body className={inter.className}>
-          <div className="scrollbar scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-primary scrollbar-track-background h-screen overflow-auto">
+          <div className="scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-primary scrollbar-track-background h-screen overflow-auto">
             {children}
           </div>
         </body>

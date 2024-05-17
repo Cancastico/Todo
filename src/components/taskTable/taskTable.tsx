@@ -24,7 +24,7 @@ export default function TaskTable({ tasks, complete, exclude }: Props) {
         return (
           <Card key={index} className="relative w-[80%] h-[18rem] outline-primary flex flex-col justify-between shadow-primary-foreground shadow-2xl  lg:ml-[4%] my-[2%] lg:w-[20%] ">
             {!task.completed &&
-              <Trash2 onClick={() => { exclude(task.id) }} className="absolute right-[1.6rem] top-[1.4rem] hover:text-red-500 transition-transform"/>
+              <Trash2 onClick={() => { exclude(task.id) }} className="absolute transition-colors duration-300 right-[1.6rem] top-[1.4rem] hover:text-red-500 "/>
             }
 
             <CardHeader className="flex flex-col gap-2">
