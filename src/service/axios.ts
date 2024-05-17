@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const AxiosNode = axios.create({
-  baseURL: process.env.NODE_ENV,
+  baseURL: 'https://todo-api-green.vercel.app/production',
   headers: {
     "Content-Type": "application/json",
   },
