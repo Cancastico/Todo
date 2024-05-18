@@ -1,6 +1,8 @@
 import axios from "axios";
-// const baseURL = 'https://todo-api-green.vercel.app/production';
-const baseURL = 'http://localhost:8000/production';
+
+console.log(process.env.NODE_ENV)
+const baseURL = process.env.NODE_ENV === "production" ? 'https://todo-api-green.vercel.app/production' : 'http://localhost:8000/production'
+
 export const AxiosNode = axios.create({
   baseURL: baseURL,
   headers: {
