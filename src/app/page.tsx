@@ -8,13 +8,10 @@ import CreateTaskForm, { taskCreate } from "@/components/forms/createTask";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { List } from "lucide-react";
-import { set } from "react-hook-form";
 import Loading from "@/components/loading/loading";
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([])
-  const [completed, setCompleted] = useState<Task[]>([]);
-  const [pending, setPending] = useState<Task[]>([]);
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
   const [pendingOpen, setPendingOpen] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,9 +20,7 @@ export default function Home() {
   function getTasks() {
     setIsLoading(true);
     return AxiosNode.get<Task[]>('/task').then((response) => {
-      setCompleted(response.data.filter((task) => { return task.completed === false }));
-      setPending(response.data.filter((task) => { return task.completed === true }));
-      setInterval(() => {}, 200)
+      setTasks(response.data);
       setIsLoading(false);
     })
   }
@@ -33,13 +28,13 @@ export default function Home() {
   async function completeTask(id: string) {
     setIsLoading(true);
     await AxiosNode.patch<boolean>(`/task/${id}`).then(() => {
-      setTasks([])
+      getTasks();
     })
   }
   async function DeleteTask(id: string) {
     setIsLoading(true);
     await AxiosNode.delete<boolean>(`/task/${id}`).then(() => {
-      setTasks([])
+      getTasks();
     })
   }
   async function createTask(data: taskCreate) {
@@ -48,7 +43,7 @@ export default function Home() {
       await AxiosNode.post<Task>('/task', data).then((response) => {
         getTasks();
       }).finally(() => {
-        setTasks([])
+        getTasks();
       });
     } catch (error: any) {
       console.log('deu ruim', error.message)
@@ -67,14 +62,6 @@ export default function Home() {
       getTasks()
     }
   }, [isOpenForm])
-
-  useEffect(() => {    
-      getTasks()
-  }, [tasks])
-
-
-  
-
 
   return (
     <div className="flex flex-col justify-between h-full">
@@ -106,7 +93,7 @@ export default function Home() {
         {isLoading && <Loading label=""/>}
         {!isLoading &&
           (
-            <Tabs defaultValue={pendingOpen?'Pending':'Completed'} activationMode="manual" className="w-full flex flex-col justify-center items-center">
+            <Tabs defaultValue={pendingOpen?"Pending":"Completed"} activationMode="manual" className="w-full flex flex-col justify-center items-center">
               <TabsList className="grid grid-cols-2 w-[80%] lg:max-w-[350px]">
                 <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(true) }} value="Pending" >Pending</TabsTrigger>
                 <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={!pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(false) }} value="Completed">Completed</TabsTrigger>
@@ -115,14 +102,14 @@ export default function Home() {
                 <TaskTable
                   complete={completeTask}
                   exclude={DeleteTask}
-                  tasks={completed}
+                  tasks={tasks?.filter((task) => { return task.completed === false })??[]}
                 />
               </TabsContent>
               <TabsContent className="w-full" value="Completed">
                 <TaskTable
                   complete={completeTask}
                   exclude={DeleteTask}
-                  tasks={pending}
+                  tasks={tasks?.filter((task) => { return task.completed === true })??[]}
                 />
               </TabsContent>
             </Tabs>)

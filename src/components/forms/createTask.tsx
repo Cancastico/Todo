@@ -7,9 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { useToast } from "../ui/use-toast";
-import { AxiosNode } from '../../service/axios';
-import { Task } from "@/dto/task/task";
 
 interface Props {
   onSubmit: (data: taskCreate) => void;
