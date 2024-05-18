@@ -106,7 +106,7 @@ export default function Home() {
         {isLoading && <Loading label=""/>}
         {!isLoading &&
           (
-            <Tabs defaultValue="Pending" activationMode="manual" className="w-full flex flex-col justify-center items-center">
+            <Tabs defaultValue={pendingOpen?'Pending':'Completed'} activationMode="manual" className="w-full flex flex-col justify-center items-center">
               <TabsList className="grid grid-cols-2 w-[80%] lg:max-w-[350px]">
                 <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(true) }} value="Pending" >Pending</TabsTrigger>
                 <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={!pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(false) }} value="Completed">Completed</TabsTrigger>
