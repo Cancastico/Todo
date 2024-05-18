@@ -8,66 +8,52 @@ import CreateTaskForm, { taskCreate } from "@/components/forms/createTask";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { List } from "lucide-react";
-import Loading from "@/components/loading/loading";
 import { set } from "react-hook-form";
+import Loading from "@/components/loading/loading";
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([])
+  const [completed, setCompleted] = useState<Task[]>([]);
+  const [pending, setPending] = useState<Task[]>([]);
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
   const [pendingOpen, setPendingOpen] = useState<boolean>(true);
-  const [isLoading,setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-// Utilize async/await de forma consistente para melhor legibilidade
-async function getTasks() {
-  try {
+  // Utilize async/await de forma consistente para melhor legibilidade
+  function getTasks() {
     setIsLoading(true);
-    const response = await AxiosNode.get<Task[]>('/task');
-    setTasks(response.data);
-  } catch (error) {
-    console.error('Erro ao buscar tarefas:', error);
-  } finally {
-    setIsLoading(false);
+    return AxiosNode.get<Task[]>('/task').then((response) => {
+      setCompleted(response.data.filter((task) => { return task.completed === false }));
+      setPending(response.data.filter((task) => { return task.completed === true }));
+      setInterval(() => {}, 200)
+      setIsLoading(false);
+    })
   }
-}
 
-// Simplifique as funções para reutilizar getTasks e reduzir repetição
-async function completeTask(id: string) {
-  await updateTaskStatus(id, 'complete');
-}
-
-async function deleteTask(id: string) {
-  await updateTaskStatus(id, 'delete');
-}
-
-// Crie uma função genérica para lidar com atualizações e deleções
-async function updateTaskStatus(id: string, action: 'complete' | 'delete') {
-  try {
+  async function completeTask(id: string) {
     setIsLoading(true);
-    if (action === 'complete') {
-      await AxiosNode.patch<boolean>(`/task/${id}`);
-    } else if (action === 'delete') {
-      await AxiosNode.delete<boolean>(`/task/${id}`);
+    await AxiosNode.patch<boolean>(`/task/${id}`).then(() => {
+      setTasks([])
+    })
+  }
+  async function DeleteTask(id: string) {
+    setIsLoading(true);
+    await AxiosNode.delete<boolean>(`/task/${id}`).then(() => {
+      setTasks([])
+    })
+  }
+  async function createTask(data: taskCreate) {
+    try {
+      setIsLoading(true);
+      await AxiosNode.post<Task>('/task', data).then((response) => {
+        getTasks();
+      }).finally(() => {
+        setTasks([])
+      });
+    } catch (error: any) {
+      console.log('deu ruim', error.message)
     }
-    await getTasks();
-  } catch (error) {
-    console.error(`Erro ao ${action === 'complete' ? 'completar' : 'deletar'} tarefa:`, error);
-  } finally {
-    setIsLoading(false);
   }
-}
-
-// Mantenha a consistência no tratamento de erros
-async function createTask(data: taskCreate) {
-  try {
-    setIsLoading(true);
-    await AxiosNode.post<Task>('/task', data);
-    await getTasks();
-  } catch (error) {
-    console.error('Erro ao criar tarefa:', error);
-  } finally {
-    setIsLoading(false);
-  }
-}
 
 
   //Pega Tasks
@@ -82,7 +68,12 @@ async function createTask(data: taskCreate) {
     }
   }, [isOpenForm])
 
+  useEffect(() => {    
+      getTasks()
+  }, [tasks])
 
+
+  
 
 
   return (
@@ -112,28 +103,30 @@ async function createTask(data: taskCreate) {
             </DialogContent>
           </Dialog>
         </div>
-
-        {!isLoading ? (
-        <Tabs defaultValue="Pending" activationMode="manual" className="w-full flex flex-col justify-center items-center">
-          <TabsList className="grid grid-cols-2 w-[80%] lg:max-w-[350px]">
-            <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(true) }} value="Pending" >Pending</TabsTrigger>
-            <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={!pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(false) }} value="Completed">Completed</TabsTrigger>
-          </TabsList>
-          <TabsContent className="w-full" value="Pending">
-            <TaskTable
-              complete={completeTask}
-              exclude={deleteTask}
-              tasks={tasks.filter((task) => { return task.completed === false })}
-            />
-          </TabsContent>
-          <TabsContent className="w-full" value="Completed">
-            <TaskTable
-              complete={completeTask}
-              exclude={deleteTask}
-              tasks={tasks.filter((task) => { return task.completed === true })}
-            />
-          </TabsContent>
-        </Tabs>):<Loading label="Carregando..."/>}
+        {isLoading && <Loading label=""/>}
+        {!isLoading &&
+          (
+            <Tabs defaultValue="Pending" activationMode="manual" className="w-full flex flex-col justify-center items-center">
+              <TabsList className="grid grid-cols-2 w-[80%] lg:max-w-[350px]">
+                <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(true) }} value="Pending" >Pending</TabsTrigger>
+                <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={!pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(false) }} value="Completed">Completed</TabsTrigger>
+              </TabsList>
+              <TabsContent className="w-full" value="Pending">
+                <TaskTable
+                  complete={completeTask}
+                  exclude={DeleteTask}
+                  tasks={completed}
+                />
+              </TabsContent>
+              <TabsContent className="w-full" value="Completed">
+                <TaskTable
+                  complete={completeTask}
+                  exclude={DeleteTask}
+                  tasks={pending}
+                />
+              </TabsContent>
+            </Tabs>)
+        }
 
 
       </main>
