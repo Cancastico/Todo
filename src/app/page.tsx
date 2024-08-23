@@ -68,8 +68,8 @@ export default function Home() {
       <main className="bg-background">
         <div className="w-full flex flex-row justify-between px-[2rem] py-[2rem]">
           <div className="flex items-center justify-between px-0">
-            <List />
-            <h1 className="font-bold text-2xl ml-1 flex flex-nowrap ">Task <span className="text-primary">Manager</span></h1>
+            <List className="text-black/80" />
+            <h1 className="font-bold text-2xl ml-1 flex flex-nowrap text-black/80 ">Task <span className="text-primary">Manager</span></h1>
           </div>
 
           {/* CreateTask Button */}
@@ -79,8 +79,8 @@ export default function Home() {
             </DialogTrigger>
             <DialogContent className="max-w-[85%] lg:w-[40%] outline-none ring-1 ring-ring rounded-md">
               <DialogHeader>
-                <DialogTitle>Create Task</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-black/80">Create Task</DialogTitle>
+                <DialogDescription className="text-black/80">
                   Create your New Task
                 </DialogDescription>
               </DialogHeader>
@@ -90,10 +90,10 @@ export default function Home() {
             </DialogContent>
           </Dialog>
         </div>
-        {isLoading && <Loading label=""/>}
+        {isLoading && <Loading label="" />}
         {!isLoading &&
           (
-            <Tabs defaultValue={pendingOpen?"Pending":"Completed"} activationMode="manual" className="w-full flex flex-col justify-center items-center">
+            <Tabs defaultValue={pendingOpen ? "Pending" : "Completed"} activationMode="manual" className="w-full flex flex-col justify-center items-center">
               <TabsList className="grid grid-cols-2 w-[80%] lg:max-w-[350px]">
                 <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(true) }} value="Pending" >Pending</TabsTrigger>
                 <TabsTrigger className="data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow" data-state={!pendingOpen ? "active" : "inactive"} onClick={() => { setPendingOpen(false) }} value="Completed">Completed</TabsTrigger>
@@ -102,14 +102,14 @@ export default function Home() {
                 <TaskTable
                   complete={completeTask}
                   exclude={DeleteTask}
-                  tasks={tasks?.filter((task) => { return task.completed === false })??[]}
+                  tasks={tasks?.filter((task) => { return task.completed === false }) ?? []}
                 />
               </TabsContent>
               <TabsContent className="w-full" value="Completed">
                 <TaskTable
                   complete={completeTask}
                   exclude={DeleteTask}
-                  tasks={tasks?.filter((task) => { return task.completed === true })??[]}
+                  tasks={tasks?.filter((task) => { return task.completed === true }) ?? []}
                 />
               </TabsContent>
             </Tabs>)

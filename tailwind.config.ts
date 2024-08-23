@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -19,13 +19,13 @@ const config = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        border: { DEFAULT: "#00AD84" },
+        input: { DEFAULT: "#00AD84" },
+        ring: { DEFAULT: "#00AD84" },
+        background: { DEFAULT: "#dddddd" },
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#00AD84",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -74,7 +74,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"),require('tailwind-scrollbar')({ nocompatible: true }),],
+  plugins: [require("tailwindcss-animate"), require('tailwind-scrollbar')({ nocompatible: true }),],
 } satisfies Config
 
 export default config
