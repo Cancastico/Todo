@@ -30,6 +30,7 @@ export default function CreateTaskForm({ onSubmit }: Props) {
         <Input
           {...register('title')}
           placeholder="Title"
+          className="text-white"
         ></Input>
         {errors.title && (
           <span className="text-red-300">
@@ -41,7 +42,7 @@ export default function CreateTaskForm({ onSubmit }: Props) {
         <Label>Description</Label>
         <Textarea
           {...register('description')}
-          className="h-full"
+          className="h-full text-white"
           placeholder="Description"
         ></Textarea>
         {errors.description && (
