@@ -10,11 +10,11 @@ const app = express();
 
 const PORT = process.env.PORT || 3000; // Define um valor padrão caso PORT não esteja definido
 
-const CORS_ORIGIN = "https://todo-cancasticos-projects.vercel.app/";
+// const CORS_ORIGIN = "https://todo-cancasticos-projects.vercel.app";
 
 app.use(express.json());
 
-app.use(cors({ origin: CORS_ORIGIN }));
+app.use(cors());
 
 app.use(router);
 
