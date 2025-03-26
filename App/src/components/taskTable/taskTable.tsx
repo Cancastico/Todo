@@ -25,13 +25,13 @@ export default function TaskTable({ tasks, complete, exclude }: Props) {
             }
 
             <CardHeader className="flex flex-col gap-2">
-              <CardTitle className="w-[90%] truncate text-black/80" >{task.title}</CardTitle>
-              <CardDescription className="w-[90%] h-[7rem] lg:h-[6rem] truncate text-wrap text-black/70">{task.description}</CardDescription>
+              <CardTitle className="w-[90%] truncate " >{task.title}</CardTitle>
+              <CardDescription className="w-[90%] h-[7rem] lg:h-[6rem] truncate text-wrap ">{task.description}</CardDescription>
             </CardHeader>
 
             <CardContent>
-              <p className="text-sm text-black/70">Created At : {formatDate(task.created_at)}</p>
-              {task.completed && <p className="text-sm text-black/70" >Completed At : {formatDate(task.completed_at)}</p>}
+              <p className="text-sm ">Created At : {formatDate(task.created_at)}</p>
+              {task.completed && <p className="text-sm " >Completed At : {formatDate(task.completed_at)}</p>}
             </CardContent>
 
             <CardFooter>
