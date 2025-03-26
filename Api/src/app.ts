@@ -8,17 +8,17 @@ dotenv.config();
 
 const app = express();
 
-const PORT = 8000
+const PORT = process.env.PORT || 3000; // Define um valor padrão caso PORT não esteja definido
 
-const CORS = process.env.NODE_ENV === "production" ? "https://todo-cancasticos-projects.vercel.app" : "http://localhost:3000"
+const CORS_ORIGIN = "https://todo-cancasticos-projects.vercel.app/";
 
 app.use(express.json());
 
-app.use(cors({ origin: CORS }));
+app.use(cors({ origin: CORS_ORIGIN }));
 
 app.use(router);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof errorResponse) {
     return res.status(err.code).json({
       error: err.message,
