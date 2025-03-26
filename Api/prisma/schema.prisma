@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+  output          = "./database/main"
+  previewFeatures = ["views"]
+  binaryTargets   = ["native", "debian-openssl-1.1.x", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+  title        String
+  description  String
+  completed    Boolean   @default(false)
+  completed_at DateTime? @db.Timestamptz(6)
+}
+
+model Permission {
+  id             Int              @id @default(autoincrement())
+  name           String
+  RolePermission RolePermission[]
+}
+
+model RefreshToken {
+  id        String   @id
+  token     String
+  createdAt DateTime @default(now())
+  idUser    Int
+  revoked   Boolean  @default(false)
+  User      User     @relation(fields: [idUser], references: [id])
+}
+
+model Role {
+  id             Int              @id @default(autoincrement())
+  name           String
+  RolePermission RolePermission[]
+  UserRole       UserRole[]
+}
+
+model RolePermission {
+  roleId       Int
+  permissionId Int
+  Permission   Permission @relation(fields: [permissionId], references: [id])
+  Role         Role       @relation(fields: [roleId], references: [id])
+
+  @@id([roleId, permissionId])
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  password     String
+  username     String?        @unique(map: "User_user_key")
+  RefreshToken RefreshToken[]
+  UserRole     UserRole[]
+}
+
+model UserRole {
+  userId Int
+  roleId Int
+  Role   Role @relation(fields: [roleId], references: [id])
+  User   User @relation(fields: [userId], references: [id])
+
+  @@id([userId, roleId])
+}
