@@ -68,8 +68,7 @@ export default function Home() {
       <main className="bg-background">
         <div className="w-full flex flex-row justify-between px-[2rem] py-[2rem]">
           <div className="flex items-center justify-between px-0">
-            <List className="text-black/80" />
-            <h1 className="font-bold text-2xl ml-1 flex flex-nowrap text-black/80 ">Task <span className="text-primary">Manager</span></h1>
+            <h1 className="font-bold text-2xl ml-1 flex flex-nowrap  ">Task <span className="text-primary">Manager</span></h1>
           </div>
 
           {/* CreateTask Button */}
@@ -79,8 +78,8 @@ export default function Home() {
             </DialogTrigger>
             <DialogContent className="max-w-[85%] lg:w-[40%] outline-none ring-1 ring-ring rounded-md">
               <DialogHeader>
-                <DialogTitle className="text-black/80">Create Task</DialogTitle>
-                <DialogDescription className="text-black/80">
+                <DialogTitle className="">Create Task</DialogTitle>
+                <DialogDescription className="">
                   Create your New Task
                 </DialogDescription>
               </DialogHeader>
